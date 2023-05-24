@@ -1,16 +1,19 @@
-$(document).ready(function() {
-    $("#color_mode").on("change", function () {
-        colorModePreview(this);
-    })
-});
+var themeLink = document.getElementById('theme-link');
+var colorModeCheckbox = document.getElementById('color_mode');
 
-function colorModePreview(ele) {
-    if($(ele).prop("checked") == true){
-        $('body').addClass('dark-preview');
-        $('body').removeClass('white-preview');
-    }
-    else if($(ele).prop("checked") == false){
-        $('body').addClass('white-preview');
-        $('body').removeClass('dark-preview');
-    }
+// Check if a theme is already selected in the local storage
+var storedTheme = localStorage.getItem('selectedTheme');
+if (storedTheme === 'dark') {
+  themeLink.href = 'static/dark.css';
+  colorModeCheckbox.checked = true;
 }
+
+colorModeCheckbox.addEventListener('change', function() {
+  if (this.checked) {
+    themeLink.href = 'static/dark.css';
+    localStorage.setItem('selectedTheme', 'dark');
+  } else {
+    themeLink.href = 'static/light.css';
+    localStorage.setItem('selectedTheme', 'light');
+  }
+});
