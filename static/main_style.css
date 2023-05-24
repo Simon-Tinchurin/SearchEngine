@@ -1,0 +1,87 @@
+html {
+  font-family: monospace;
+}
+
+body {
+  background-size: cover;
+}
+
+.search {
+  width: 500px;
+  height: 40px;
+  margin: 150px auto;
+  border-radius: 5px;
+}
+
+.search input {
+  width: 370px;
+  padding: 10px 5px;
+  float: left;
+  border: 0;
+  background: transparent;
+  border-radius: 5px 0 0 5px;
+  font-size: 16px;
+}
+
+.search input:focus {
+  outline: 0;
+  background: transparent;
+}
+
+.search button {
+  position: relative;
+  float: right;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  height: 40px;
+  width: 120px;
+  background: transparent;
+  border-left: 1px solid;
+  border-radius: 0 3px 3px 0;
+  font-size: 16px;
+}
+
+.search button:focus {
+  outline: 0;
+}
+
+table {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border-spacing: 10px;
+}
+
+td, th {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: left;
+
+}
+
+/*switch styles*/
+
+div.btn-container{
+    display: table-cell;
+    position: fixed;
+    vertical-align: middle;
+    text-align: center;
+    top: 20px;
+    right: 20px;
+}
+
+div.btn-container i{
+    display: inline-block;
+    position: relative;
+    top: 0;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 500;
+}
+
