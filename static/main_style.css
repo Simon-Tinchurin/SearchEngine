@@ -46,6 +46,17 @@ body {
   outline: 0;
 }
 
+div.container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #fff;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border-spacing: 10px;
+    padding: 10px 20px;
+}
+
 table {
     width: 70%;
     margin-left: auto;
@@ -140,11 +151,25 @@ label {
     margin: 0px;
 }
 
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:after{
+    content: attr(data-on);
+    left: 68px;
+}
 
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:before{
+    content: attr(data-off);
+    right: auto;
+    left: 20px;
+}
 
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner{
+    /*background: #66BB6A; */
+    /*color: #fff;*/
+}
 
-
-
+.btn-color-mode-switch input[type="checkbox"]:checked ~ .alert{
+    display: block;
+}
 
 
 

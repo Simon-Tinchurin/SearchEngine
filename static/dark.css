@@ -62,24 +62,7 @@ label {
 }
 
 .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:after{
-    content: attr(data-on);
-    left: 68px;
     background: #3c3c3c;
-}
-
-.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:before{
-    content: attr(data-off);
-    right: auto;
-    left: 20px;
-}
-
-.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner{
-    /*background: #66BB6A; */
-    /*color: #fff;*/
-}
-
-.btn-color-mode-switch input[type="checkbox"]:checked ~ .alert{
-    display: block;
 }
 
 /*mode preview*/
@@ -107,10 +90,6 @@ label {
 
 .white-preview div.btn-container i.fa-moon-o{
     color: #777;
-}
-
-p.by {
-
 }
 
 p.by a{
