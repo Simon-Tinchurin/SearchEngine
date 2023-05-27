@@ -60,8 +60,16 @@ div.container {
     text-align: left;
 }
 
-div.resp-link{
-    margin-bottom: 10px;
+a {
+    display: inline-block;
+    font-size: 16px;
+    text-decoration: none;
+    padding-bottom: 10px;
+
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 small.resp-time {

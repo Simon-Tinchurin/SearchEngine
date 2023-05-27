@@ -33,6 +33,14 @@ div.container{
     border: 1px solid #074d66;
 }
 
+a {
+    color: #c3dbe7;
+}
+
+a:hover {
+    text-decoration-color: #074d66;
+}
+
 /*table {
   color: #c3dbe7;
 }
