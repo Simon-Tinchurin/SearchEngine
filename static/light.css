@@ -28,13 +28,18 @@ body {
   box-shadow: 0px 0px 12px 0px #e1e1e1;
 }
 
-table {
+div.container{
+    color: #28353d;
+    border: 1px solid #28353d;
+}
+
+/*table {
   color: #28353d;
 }
 
 td, th {
   border: 1px solid #28353d;
-}
+}*/
 
 /*switch styles*/
 

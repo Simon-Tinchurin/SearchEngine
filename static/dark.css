@@ -28,13 +28,18 @@ body {
   box-shadow: 0px 0px 12px 0px #e1e1e1;
 }
 
-table {
+div.container{
+    color: #c3dbe7;
+    border: 1px solid #074d66;
+}
+
+/*table {
   color: #c3dbe7;
 }
 
 td, th {
   border: 1px solid #074d66;
-}
+}*/
 
 /*switch styles*/
 
@@ -57,12 +62,12 @@ label {
 }
 
 .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner{
-    background: #151515;
+    background: #172222;
     color: #fff;
 }
 
 .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:after{
-    background: #3c3c3c;
+    background: #074d66;
 }
 
 /*mode preview*/
