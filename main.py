@@ -1,17 +1,20 @@
 import requests
-from config import CUSTOM_API_KEY
+import pprint
+from config import *
 
-# https://rapidapi.com/contextualwebsearch/api/web-search/
 
-url = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI"
+def search_nyt(QUERY):
+    nyt_url = f'https://api.nytimes.com/svc/search/v2/articlesearch.json?q={QUERY}&api-key={NYT_API_KEY}&page=1'
+    response = requests.get(url=nyt_url).json()['response']['docs']
+    headlines = []
+    for i in range(len(response)):
+        print('----------------------------------')
+        print(response[i]['headline']['main'])
+        print(response[i]['pub_date'])
+        print(response[i]['web_url'])
+        print('')
+        # titles.append(response[i]['abstract'])
+    # print(response)
 
-querystring = {"q": "taylor swift", "pageNumber": "1", "pageSize": "10", "autoCorrect": "true"}
 
-headers = {
-    "X-RapidAPI-Key": CUSTOM_API_KEY,
-    "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
-}
-
-response = requests.get(url, headers=headers, params=querystring)
-
-print(response.json())
+search_nyt('Ukraine')
