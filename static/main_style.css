@@ -46,6 +46,13 @@ body {
   outline: 0;
 }
 
+button#clearButton.clear-button {
+    display: none;
+    background-image: url(close.png);
+    width: 40px;
+    height: 40px;
+}
+
 div.container {
     width: 60%;
     margin-left: auto;
