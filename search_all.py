@@ -22,4 +22,5 @@ rapid_search(QUERY='metallica')
 def serpstack_search(QUERY):
     url = f'http://api.serpstack.com/search?access_key={SERPSTACK_KEY}&query={QUERY}'
     response = requests.get(url).json()
-    print(response)
+    search_results = response['organic_results']
+    print(search_results)
