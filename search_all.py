@@ -15,12 +15,18 @@ def rapid_search(QUERY):
         print(item['datePublished'])
 
 
-rapid_search(QUERY='metallica')
+# rapid_search(QUERY='metallica')
 
 
 # https://serpstack.com/dashboard
 def serpstack_search(QUERY):
-    url = f'http://api.serpstack.com/search?access_key={SERPSTACK_KEY}&query={QUERY}'
+    url = f'http://api.serpstack.com/search?access_key={SERPSTACK_KEY}&query={QUERY}&num=10'
     response = requests.get(url).json()
     search_results = response['organic_results']
+    for item in search_results:
+        print(item['title'])
+        print(item['url'])
     print(search_results)
+
+
+serpstack_search('metallica')
