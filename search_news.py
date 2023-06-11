@@ -2,8 +2,6 @@ import requests
 from config import *
 from functions import timer
 
-functions_work_time = {}
-
 
 # https://developer.nytimes.com/docs/articlesearch-product/1/overview
 @timer
@@ -24,5 +22,4 @@ def search_nyt(QUERY):
     # print(response)
 
 
-search_nyt('Ukraine')
-print(functions_work_time)
+search_nyt('metallica')

@@ -1,6 +1,8 @@
 from functools import wraps
 import datetime
 
+functions_work_time = {}
+
 
 def timer(func):
     @wraps(func)
@@ -11,6 +13,7 @@ def timer(func):
             end_time = datetime.datetime.now()
             delta = (end_time - start_time).total_seconds()
             functions_work_time[func.__name__] = delta
+            print(func.__name__, delta)
             return result
         return wrapper
     return decorator(func)
