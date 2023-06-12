@@ -22,4 +22,19 @@ def search_nyt(QUERY):
     # print(response)
 
 
-search_nyt('metallica')
+# search_nyt('metallica')
+
+# https://open-platform.theguardian.com/documentation/
+@timer
+def search_the_guardian(QUERY):
+    url = f'https://content.guardianapis.com/search?q={QUERY}&api-key={THE_GUARDIAN_KEY}'
+    response = requests.get(url).json()['response']['results']
+    for item in response:
+        print(item['webTitle'])
+        print(item['webUrl'])
+        print(item['webPublicationDate'])
+        print('-----------------------')
+    # print(response)
+
+
+search_the_guardian('metallica')
