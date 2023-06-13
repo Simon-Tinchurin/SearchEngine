@@ -1,6 +1,6 @@
 import requests
 from functions import timer
-from config import RAPIDAPI_HEADERS, SERPSTACK_KEY
+from config import *
 
 
 def process_data(data):
@@ -25,6 +25,16 @@ def rapid_search(QUERY):
     return process_data(data=response)
 
 
+def bing_search(QUERY):
+    url = "https://bing-web-search1.p.rapidapi.com/search"
+    querystring = {"q": f"{QUERY}", "freshness": "Day", "textFormat": "Raw",
+                   "safeSearch": "Off", "mkt": "en-us"}
+    response = requests.get(url,
+                            headers=BING_HEADERS,
+                            params=querystring).json()['value']
+    return process_data(response)
+
+
 # https://serpstack.com/dashboard
 @timer
 def serpstack_search(QUERY):
@@ -38,5 +48,3 @@ def main(QUERY):
     total_result = rapid_search(QUERY) + serpstack_search(QUERY)
     print(total_result)
 
-
-main(QUERY='Ukraine')
