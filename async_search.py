@@ -1,4 +1,6 @@
 import asyncio
+import datetime
+
 import aiohttp
 import requests
 from functions import timer
@@ -38,26 +40,25 @@ def rapid_search(QUERY):
     return news
 
 
-@timer
-def bing_search(QUERY):
+async def bing_search(session, QUERY):
     url = "https://bing-web-search1.p.rapidapi.com/search"
     querystring = {"q": f"{QUERY}", "freshness": "Day", "textFormat": "Raw",
                    "safeSearch": "Off", "mkt": "en-us"}
-    response = requests.get(url,
-                            headers=BING_HEADERS,
-                            params=querystring).json()['value']
-    news = []
-    for item in response:
-        news_dict = {'title': item['name'],
-                     'url': item['url'],
-                     'description': item['description'],
-                     'date': item['datePublished']}
-        news.append(news_dict)
-    return news
+    async with session.get(url, headers=BING_HEADERS,
+                                params=querystring) as response:
+        result = await response.json()
+        result = result['value']
+        news = []
+        for item in result:
+            news_dict = {'title': item['name'],
+                         'url': item['url'],
+                         'description': item['description'],
+                         'date': item['datePublished']}
+            news.append(news_dict)
+    print(news)
 
 
 # https://serpstack.com/dashboard
-@timer
 async def serpstack_search(session, QUERY):
     url = f'http://api.serpstack.com/search?access_key={SERPSTACK_KEY}&query={QUERY}&num=10'
     async with session.get(url) as response:
@@ -71,19 +72,18 @@ async def serpstack_search(session, QUERY):
                          'date': '',
                          }
             news.append(news_dict)
-        return news
+        print(news)
 
 
-@timer
 async def main(QUERY):
     async with aiohttp.ClientSession() as session:
         tasks = []
         # task1 = asyncio.ensure_future(rapid_search(session, QUERY))
         task2 = asyncio.ensure_future(serpstack_search(session, QUERY))
-        # task3 = asyncio.ensure_future(bing_search(session, QUERY))
+        task3 = asyncio.ensure_future(bing_search(session, QUERY))
         # tasks.append(task1)
         tasks.append(task2)
-        # tasks.append(task3)
+        tasks.append(task3)
         await asyncio.gather(*tasks)
 
 # @timer
@@ -100,6 +100,8 @@ async def main(QUERY):
 
 
 if __name__ == '__main__':
+    t0 = datetime.datetime.now()
     asyncio.run(main('Ukraine'))
+    print((datetime.datetime.now()-t0).total_seconds())
 
 # main 15.832384
