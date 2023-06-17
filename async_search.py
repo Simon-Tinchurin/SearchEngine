@@ -5,7 +5,7 @@ from functions import timer
 from config import *
 
 
-def process_data(data, func_name):
+def process_data(data):
     patterns = {'rapid_search': ['title', 'url', 'description', 'datePublished'],
                 'bing_search': ['name', 'url', 'description', 'datePublished'],
                 'serpstack_search': ['title', 'url'],
@@ -23,14 +23,22 @@ def process_data(data, func_name):
 # https://rapidapi.com/contextualwebsearch/api/web-search/
 @timer
 def rapid_search(QUERY):
+    news = []
     url = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI"
     querystring = {"q": QUERY, "pageNumber": "1", "pageSize": "10", "autoCorrect": "true"}
     response = requests.get(url,
                             headers=RAPIDAPI_HEADERS,
                             params=querystring).json()['value']
-    return process_data(data=response, func_name=rapid_search.__name__)
+    for item in response:
+        news_dict = {'title': item['title'],
+                     'url': item['url'],
+                     'description': item['description'],
+                     'date': item['datePublished']}
+        news.append(news_dict)
+    return news
 
 
+@timer
 def bing_search(QUERY):
     url = "https://bing-web-search1.p.rapidapi.com/search"
     querystring = {"q": f"{QUERY}", "freshness": "Day", "textFormat": "Raw",
@@ -38,6 +46,14 @@ def bing_search(QUERY):
     response = requests.get(url,
                             headers=BING_HEADERS,
                             params=querystring).json()['value']
+    news = []
+    for item in response:
+        news_dict = {'title': item['name'],
+                     'url': item['url'],
+                     'description': item['description'],
+                     'date': item['datePublished']}
+        news.append(news_dict)
+    return news
 
 
 # https://serpstack.com/dashboard
@@ -45,10 +61,12 @@ def bing_search(QUERY):
 def serpstack_search(QUERY):
     url = f'http://api.serpstack.com/search?access_key={SERPSTACK_KEY}&query={QUERY}&num=10'
     response = requests.get(url).json()['organic_results']
-    # return process_data(data=search_results)
-    print(response)
-
-serpstack_search('Python')
+    news = []
+    for item in response:
+        news_dict = {'title': item['title'],
+                     'url': item['url']}
+        news.append(news_dict)
+    return news
 
 # async def main(QUERY):
 #     async with aiohttp.ClientSession as session:
@@ -58,18 +76,20 @@ serpstack_search('Python')
 #         tasks.append(task1)
 #         tasks.append(task2)
 
+@timer
+def main(QUERY):
+    res1 = rapid_search(QUERY)
+    print('----------------')
+    print(res1)
+    res2 = bing_search(QUERY)
+    print('----------------')
+    print(res2)
+    res3 = serpstack_search(QUERY)
+    print('----------------')
+    print(res3)
 
-# def main(QUERY):
-#     res1 = rapid_search(QUERY)
-#     print('----------------')
-#     print(res1)
-#     res2 = bing_search(QUERY)
-#     print('----------------')
-#     print(res2)
-#     res3 = serpstack_search(QUERY)
-#     print('----------------')
-#     print(res3)
-#
-#
-# if __name__ == '__main__':
-#     main('Python')
+
+if __name__ == '__main__':
+    main('Ukraine')
+
+# main 15.832384
