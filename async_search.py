@@ -58,38 +58,48 @@ def bing_search(QUERY):
 
 # https://serpstack.com/dashboard
 @timer
-def serpstack_search(QUERY):
+async def serpstack_search(session, QUERY):
     url = f'http://api.serpstack.com/search?access_key={SERPSTACK_KEY}&query={QUERY}&num=10'
-    response = requests.get(url).json()['organic_results']
-    news = []
-    for item in response:
-        news_dict = {'title': item['title'],
-                     'url': item['url']}
-        news.append(news_dict)
-    return news
+    async with session.get(url) as response:
+        result = await response.json()
+        result = result['organic_results']
+        news = []
+        for item in result:
+            news_dict = {'title': item['title'],
+                         'url': item['url'],
+                         'description': '',
+                         'date': '',
+                         }
+            news.append(news_dict)
+        return news
 
-# async def main(QUERY):
-#     async with aiohttp.ClientSession as session:
-#         tasks = []
-#         task1 = asyncio.ensure_future(rapid_search(session, QUERY))
-#         task2 = asyncio.ensure_future(serpstack_search(session, QUERY))
-#         tasks.append(task1)
-#         tasks.append(task2)
 
 @timer
-def main(QUERY):
-    res1 = rapid_search(QUERY)
-    print('----------------')
-    print(res1)
-    res2 = bing_search(QUERY)
-    print('----------------')
-    print(res2)
-    res3 = serpstack_search(QUERY)
-    print('----------------')
-    print(res3)
+async def main(QUERY):
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        # task1 = asyncio.ensure_future(rapid_search(session, QUERY))
+        task2 = asyncio.ensure_future(serpstack_search(session, QUERY))
+        # task3 = asyncio.ensure_future(bing_search(session, QUERY))
+        # tasks.append(task1)
+        tasks.append(task2)
+        # tasks.append(task3)
+        await asyncio.gather(*tasks)
+
+# @timer
+# def main(QUERY):
+#     res1 = rapid_search(QUERY)
+#     print('----------------')
+#     print(res1)
+#     res2 = bing_search(QUERY)
+#     print('----------------')
+#     print(res2)
+#     res3 = serpstack_search(QUERY)
+#     print('----------------')
+#     print(res3)
 
 
 if __name__ == '__main__':
-    main('Ukraine')
+    asyncio.run(main('Ukraine'))
 
 # main 15.832384
