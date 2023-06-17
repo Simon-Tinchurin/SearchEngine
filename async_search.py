@@ -1,10 +1,10 @@
 import asyncio
 import datetime
-
 import aiohttp
-import requests
-from functions import timer
 from config import *
+
+# sync main 15.832384
+# async 8.49841
 
 
 def process_data(data):
@@ -23,21 +23,21 @@ def process_data(data):
 
 
 # https://rapidapi.com/contextualwebsearch/api/web-search/
-@timer
-def rapid_search(QUERY):
+async def rapid_search(session, QUERY):
     news = []
     url = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI"
     querystring = {"q": QUERY, "pageNumber": "1", "pageSize": "10", "autoCorrect": "true"}
-    response = requests.get(url,
-                            headers=RAPIDAPI_HEADERS,
-                            params=querystring).json()['value']
-    for item in response:
-        news_dict = {'title': item['title'],
-                     'url': item['url'],
-                     'description': item['description'],
-                     'date': item['datePublished']}
-        news.append(news_dict)
-    return news
+    async with session.get(url, headers=RAPIDAPI_HEADERS,
+                           params=querystring) as response:
+        result = await response.json()
+        result = result['value']
+        for item in result:
+            news_dict = {'title': item['title'],
+                         'url': item['url'],
+                         'description': item['description'],
+                         'date': item['datePublished']}
+            news.append(news_dict)
+    print(news)
 
 
 async def bing_search(session, QUERY):
@@ -78,10 +78,10 @@ async def serpstack_search(session, QUERY):
 async def main(QUERY):
     async with aiohttp.ClientSession() as session:
         tasks = []
-        # task1 = asyncio.ensure_future(rapid_search(session, QUERY))
+        task1 = asyncio.ensure_future(rapid_search(session, QUERY))
         task2 = asyncio.ensure_future(serpstack_search(session, QUERY))
         task3 = asyncio.ensure_future(bing_search(session, QUERY))
-        # tasks.append(task1)
+        tasks.append(task1)
         tasks.append(task2)
         tasks.append(task3)
         await asyncio.gather(*tasks)
@@ -103,5 +103,3 @@ if __name__ == '__main__':
     t0 = datetime.datetime.now()
     asyncio.run(main('Ukraine'))
     print((datetime.datetime.now()-t0).total_seconds())
-
-# main 15.832384
